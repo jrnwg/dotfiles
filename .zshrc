@@ -56,6 +56,8 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 
+[ -f ~/.config/fzf/colors.sh ] && source ~/.config/fzf/colors.sh
+
 # nvim
 if command -v nvim >/dev/null; then
   export EDITOR='nvim'
