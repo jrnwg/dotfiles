@@ -94,10 +94,6 @@ alias glga='glg --all'
 
 alias lg='lazygit'
 
-# dotfiles
-DOTFILES=$HOME/.dotfiles.git
-alias dot='git --git-dir=$DOTFILES --work-tree=$HOME'
-
 # Shell integrations
 eval "$(fzf --zsh)"
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"

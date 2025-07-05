@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+set -e
+
+DOTFILES="$HOME/.dotfiles.git"
+DOTFILES_WORKTREE="$HOME"
+DOTFILE_BACKUP="$HOME/.dotfiles.backup"
+
+function _git() {
+    git --git-dir="$DOTFILES" --work-tree="$DOTFILES_WORKTREE" "$@"
+}
+
+function bootstrap() {
+    local repo_url="$1"
+
+    if [ -z "$repo_url" ]; then
+        echo "Usage: dot bootstrap <git-repo-url>"
+        exit 1
+    fi
+
+    if [ -d "$DOTFILES" ]; then
+        echo "Dotfiles already exists at $DOTFILES"
+        exit 1
+    fi
+   
+    git clone --bare "$repo_url" "$DOTFILES"
+    checkout
+    _git config status.showUntrackedFiles no
+}
+
+function checkout() {
+    if ! _git checkout 2>/dev/null; then
+        echo "Resolving conflicts, backing them up to $DOTFILE_BACKUP..."
+
+        _git checkout 2>&1 | grep -E "^\s+\." | awk '{print $1}' | sort -u | while read -r file; do
+            fullpath="$DOTFILES_WORKTREE/$file"
+            if [ -e "$fullpath" ] || [ -L "$fullpath" ]; then
+                mkdir -p "$(dirname "$DOTFILE_BACKUP/$file")"
+                mv "$fullpath" "$DOTFILE_BACKUP/$file"
+            fi
+        done
+
+        _git checkout
+    fi
+}
+
+case "$1" in
+    bootstrap)
+        shift
+        bootstrap "$@"
+        ;;
+    checkout)
+        checkout
+        ;;
+    *)
+        _git "$@"
+        ;;
+esac
+
