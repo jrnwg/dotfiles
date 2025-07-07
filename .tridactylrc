@@ -1,0 +1,18 @@
+vim: set filetype=vim:
+
+" Set settings to default
+sanitize tridactyllocal tridactylsync
+
+" Search
+bind n findnext 1
+bind N findnext -1
+
+bind <C-l> nohlsearch
+
+" Scroll
+bind j scrollline 5
+bind k scrollline -5
+set smoothscroll true
+
+" Move status bar to the right
+guiset_quiet hoverlink right
