@@ -19,44 +19,7 @@ return {
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
-      require("mason-lspconfig").setup {
-        ensure_installed = { "lua_ls", "pyright", "ruff" },
-      }
-
-      local function on_attach(client, bufnr)
-        local opts = { buffer = bufnr, silent = true }
-
-        -- Optional: disable formatting for ruff
-        if client.name == "ruff" then
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.hoverProvider = false
-        end
-
-        -- Show diagnostic in float under cursor
-        vim.keymap.set("n", "<leader>e", function()
-          vim.diagnostic.open_float(nil, { focusable = false })
-        end, vim.tbl_extend("force", opts, { desc = "Show line diagnostics" }))
-
-        -- More LSP keymaps could go here if you want (hover, rename, etc.)
-      end
-
-      local lspconfig = require "lspconfig"
-      lspconfig.lua_ls.setup {
-        on_attach = on_attach,
-        settings = {
-          Lua = {
-            diagnostics = {
-              disable = { "missing-fields" },
-            },
-          },
-        },
-      }
-      lspconfig.pyright.setup {
-        on_attach = on_attach,
-      }
-      lspconfig.ruff.setup {
-        on_attach = on_attach,
-      }
+      require "core.lsp"
     end,
   },
 }
