@@ -4,6 +4,8 @@ font-size = 11
 window-theme = system
 gtk-titlebar-hide-when-maximized
 
+theme = tokyonight_moon
+
 # shell-integration = none
 shell-integration-features = no-cursor
 confirm-close-surface = false
