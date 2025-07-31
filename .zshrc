@@ -69,9 +69,6 @@ export VISUAL=$EDITOR
 export PAGER=less
 export LESS='-R'
 
-# bat
-command -v bat >/dev/null && alias cat='bat -p'
-
 ## ls
 alias ls='ls --color=auto'
 alias l='ls -lh'
