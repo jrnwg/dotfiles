@@ -95,6 +95,8 @@ alias gls='git ls'
 alias lg='lazygit'
 alias lazydot='lazygit -g ~/.dotfiles.git -w ~'
 
+compdef dot=git
+
 # Shell integrations
 eval "$(fzf --zsh)"
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
