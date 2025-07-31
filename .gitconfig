@@ -1,0 +1,31 @@
+[core]
+	editor = vim
+	pager = delta
+[user]
+	email = 189479406+jrnwg@users.noreply.github.com
+	name = jrnwg
+
+[alias]
+	s = status -sb
+	b = branch
+	d = diff
+	ds = diff --staged
+	a = add
+	c = commit
+	co = checkout
+	p = push
+	l = log --graph --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s%C(reset) %C(green)(%cd)%Creset %C(bold blue)<%aN>%Creset' --decorate --date=short
+	ls = l --max-count=20
+
+[include]
+	path = ~/.config/delta/tokyonight_moon.gitconfig
+
+[delta]
+	line-numbers = true
+	side-by-side = false
+
+[interactive]
+	diffFilter = delta --color-only
+
+[init]
+	defaultBranch = main

@@ -81,17 +81,19 @@ alias ..='cd ..'
 alias grep='grep --color=auto'
 
 # git
-alias gs='git status'
-alias gb='git branch'
-alias gd='git diff'
-alias gds='git diff --staged'
-alias gdv='git diff -w "$@" | vim -R'
-alias ga='git add'
-alias gc='git commit'
-alias glg='PAGER= git log --graph --decorate --pretty=format:"%C(yellow)%h%Creset -%C(yellow)%d%Creset %s%C(reset) %C(green)(%cd)%Creset %C(bold blue)<%aN>%Creset" --date=relative'
-alias glga='glg --all'
+alias gs='git s'
+alias gb='git b'
+alias gd='git d'
+alias gds='git ds'
+alias ga='git a'
+alias gc='git c'
+alias gco='git co'
+alias gp='git p'
+alias gl='git l'
+alias gls='git ls'
 
 alias lg='lazygit'
+alias lazydot='lazygit -g ~/.dotfiles.git -w ~'
 
 # Shell integrations
 eval "$(fzf --zsh)"
