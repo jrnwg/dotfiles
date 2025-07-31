@@ -117,17 +117,17 @@ local function on_attach(client, bufnr)
     client.server_capabilities.hoverProvider = false
   end
 
-  -- Show diagnostic in float under cursor
-  vim.keymap.set("n", "<leader>e", function()
-    vim.diagnostic.open_float(nil, { focusable = false })
-  end, vim.tbl_extend("force", opts, { desc = "Show line diagnostics" }))
+  -- -- Show diagnostic in float under cursor
+  -- vim.keymap.set("n", "<leader>e", function()
+  --   vim.diagnostic.open_float(nil, { focusable = false })
+  -- end, vim.tbl_extend("force", opts, { desc = "Show line diagnostics" }))
 
   -- More LSP keymaps could go here if you want (hover, rename, etc.)
 end
 
 local lspconfig = require "lspconfig"
 lspconfig.lua_ls.setup {
-  on_attach = on_attach,
+  -- on_attach = on_attach,
   settings = {
     Lua = {
       diagnostics = {
@@ -141,4 +141,16 @@ lspconfig.pyright.setup {
 }
 lspconfig.ruff.setup {
   on_attach = on_attach,
+  settings = {
+    pyright = {
+      -- Using Ruff's import organizer
+      disableOrganizeImports = true,
+    },
+    python = {
+      analysis = {
+        -- Ignore all files for analysis to exclusively use Ruff for linting
+        ignore = { "*" },
+      },
+    },
+  },
 }
