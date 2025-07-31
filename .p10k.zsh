@@ -37,6 +37,7 @@
     vcs                     # git status
     # =========================[ Line #2 ]=========================
     newline                 # \n
+    context
     prompt_char             # prompt symbol
   )
 
@@ -85,8 +86,8 @@
     # gcloud                  # google cloud cli account and project (https://cloud.google.com/)
     # google_app_cred         # google application credentials (https://cloud.google.com/docs/authentication/production)
     # toolbox                 # toolbox name (https://github.com/containers/toolbox)
-    context                 # user@hostname
-#    nordvpn                 # nordvpn connection status, linux only (https://nordvpn.com/)
+    # context                 # user@hostname
+    # nordvpn                 # nordvpn connection status, linux only (https://nordvpn.com/)
     # ranger                  # ranger shell (https://github.com/ranger/ranger)
     # yazi                    # yazi shell (https://github.com/sxyazi/yazi)
     # nnn                     # nnn shell (https://github.com/jarun/nnn)
@@ -923,7 +924,7 @@
   # Custom icon.
   # typeset -g POWERLEVEL9K_CONTEXT_VISUAL_IDENTIFIER_EXPANSION='⭐'
   # Custom prefix.
-  typeset -g POWERLEVEL9K_CONTEXT_PREFIX='%fwith '
+  # typeset -g POWERLEVEL9K_CONTEXT_PREFIX='%fwith '
 
   ###[ virtualenv: python virtual environment (https://docs.python.org/3/library/venv.html) ]###
   # Python virtual environment color.
