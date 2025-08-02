@@ -12,9 +12,24 @@ function _git() {
 
 function bootstrap() {
     local repo_url="$1"
+    local switch_to_ssh=false
+
+    shift
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --switch-to-ssh)
+                switch_to_ssh=true
+                ;;
+            *)
+                echo "Unknown option: $1"
+                exit 1
+                ;;
+        esac
+        shift
+    done
 
     if [ -z "$repo_url" ]; then
-        echo "Usage: dot bootstrap <git-repo-url>"
+        echo "Usage: dot bootstrap <git-repo-url> [--switch-to-ssh]"
         exit 1
     fi
 
@@ -22,26 +37,95 @@ function bootstrap() {
         echo "Dotfiles already exists at $DOTFILES"
         exit 1
     fi
-   
+  
     git clone --bare "$repo_url" "$DOTFILES"
     checkout
     _git config status.showUntrackedFiles no
+
+    if $switch_to_ssh; then
+        local ssh_url="git@github.com:${repo_url#https://github.com/}"
+        echo "Switching remote origin to SSH: $ssh_url"
+        _git remote set-url origin "$ssh_url"
+    fi
+
+    local branch
+    branch=$(_git symbolic-ref --short HEAD 2>/dev/null || echo main)
+    _git branch --set-upstream-to=origin/$branch $branch 2>/dev/null || true
+}
+
+function resolve_conflicts() {
+    local timestamp
+    timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+    local backup_dir="$DOTFILE_BACKUP/$timestamp"
+
+    local file_list=()
+
+    if [ -n "$GIT_CONFLICT_FILES" ]; then
+        file_list=($(echo "$GIT_CONFLICT_FILES"))
+    else
+        file_list=($(_git ls-files -u | awk '{print $4}' | sort -u))
+    fi
+
+    if [ "${#file_list[@]}" -eq 0 ]; then
+        return
+    fi
+
+    echo "Resolving conflicts, backing up existing files to $backup_dir..."
+    for file in "${file_list[@]}"; do
+        local fullpath="$DOTFILES_WORKTREE/$file"
+        if [ -e "$fullpath" ] || [ -L "$fullpath" ]; then
+            mkdir -p "$(dirname "$backup_dir/$file")"
+            mv "$fullpath" "$backup_dir/$file"
+        fi
+    done
 }
 
 function checkout() {
-    if ! _git checkout 2>/dev/null; then
-        echo "Resolving conflicts, backing them up to $DOTFILE_BACKUP..."
-
-        _git checkout 2>&1 | grep -E "^\s+\." | awk '{print $1}' | sort -u | while read -r file; do
-            fullpath="$DOTFILES_WORKTREE/$file"
-            if [ -e "$fullpath" ] || [ -L "$fullpath" ]; then
-                mkdir -p "$(dirname "$DOTFILE_BACKUP/$file")"
-                mv "$fullpath" "$DOTFILE_BACKUP/$file"
-            fi
-        done
-
-        _git checkout
+    if _git checkout "$@" 2>/dev/null; then
+        return 0
     fi
+
+    export GIT_CONFLICT_FILES=$(_git checkout "$@" 2>&1 | grep -E "^\s+\." | awk '{print $1}' | sort -u | tr '\n' ' ')
+    if [ -z "$GIT_CONFLICT_FILES" ]; then
+        echo "Git checkout failed, but no conflict files were detected."
+        exit 1
+    fi
+
+    resolve_conflicts
+    _git checkout "$@"
+}
+
+function pull() {
+    if _git pull "$@"; then
+        return 0
+    fi
+
+    resolve_conflicts
+
+    _git rebase --abort || true
+    _git pull "$@"
+}
+
+function remote-switch() {
+    local current_url
+    current_url=$(_git remote get-url origin)
+
+    if [[ "$current_url" =~ ^https://github.com/ ]]; then
+        local ssh_url="git@github.com:${current_url#https://github.com/}"
+        echo "Switching remote 'origin' to SSH: $ssh_url"
+        _git remote set-url origin "$ssh_url"
+
+    elif [[ "$current_url" =~ ^git@github.com: ]]; then
+        local https_url="https://github.com/${current_url#git@github.com:}"
+        echo "Switching remote 'origin' to HTTPS: $https_url"
+        _git remote set-url origin "$https_url"
+
+    else
+        echo "Unknown remote URL format: $current_url"
+        return 1
+    fi
+
+    echo "New origin URL: $(_git remote get-url origin)"
 }
 
 case "$1" in
@@ -50,7 +134,13 @@ case "$1" in
         bootstrap "$@"
         ;;
     checkout)
-        checkout
+        checkout "$@"
+        ;;
+    pull)
+        pull "$@"
+        ;;
+    remote-switch)
+        remote-switch
         ;;
     *)
         _git "$@"
