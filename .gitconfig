@@ -15,7 +15,7 @@
 	co = checkout
 	p = push
 	l = log --graph --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s%C(reset) %C(green)(%cd)%Creset %C(bold blue)<%aN>%Creset' --decorate --date=relative
-	ls = l --max-count=20
+	ls = l --max-count=10
 
 [include]
 	path = ~/.config/delta/tokyonight_moon.gitconfig
