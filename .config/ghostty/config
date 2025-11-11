@@ -1,13 +1,14 @@
 font-family = Hack Nerd Font
 font-size = 12
 
-theme = tokyonight_moon
+theme = TokyoNight Moon
 
 # shell-integration = none
 shell-integration-features = no-cursor
 cursor-style = block
 cursor-style-blink = false
 
+window-inherit-working-directory = false
 window-theme = system
 gtk-titlebar-hide-when-maximized
 confirm-close-surface = false
