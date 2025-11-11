@@ -1,8 +1,7 @@
 gui:
   showFileTree: true
   nerdFontsVersion: "3"
-
 git:
-  paging:
-    colorArg: always
-    pager: delta --pager=never
+  pagers:
+    - colorArg: always
+      pager: delta --pager=never
