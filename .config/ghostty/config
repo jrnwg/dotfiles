@@ -24,3 +24,5 @@ keybind = alt+7=unbind
 keybind = alt+8=unbind
 keybind = alt+9=unbind
 
+# Fix opencode shift+enter
+keybind = shift+enter=text:\x1b[13;2u
