@@ -80,6 +80,12 @@ alias ..='cd ..'
 # grep
 alias grep='grep --color=auto'
 
+alias tls='tmux ls'
+alias tn='tmux new -s'
+alias ta='tmux attach -t'
+alias tk='tmux kill-session -t'
+alias tp='tmuxp'
+
 # git
 alias gs='git s'
 alias gb='git b'
