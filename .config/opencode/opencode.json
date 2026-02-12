@@ -1,15 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "theme": "tokyonight",
-  "agent": {
-    "code-reviewer": {
-      "description": "Review code for best practices and potential issues",
-      "model": "anthropic/claude-sonnet-4-20250514",
-      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
-      "tools": {
-        "write": false,
-        "edit": false
-      }
-    }
-  }
+  "keybinds": {
+    "messages_page_up": "pageup,ctrl+b",
+    "messages_page_down": "pagedown,ctrl+f",
+    "messages_half_page_up": "ctrl+u",
+    "messages_half_page_down": "ctrl+d",
+    "messages_next": "ctrl+]",
+    "messages_previous": "ctrl+[",
+  },
 }
