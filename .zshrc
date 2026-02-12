@@ -104,6 +104,14 @@ alias lazydot='lazygit -g ~/.dotfiles.git -w ~'
 
 compdef dot=git
 
+# aws
+if command -v aws_completer &> /dev/null; then
+    autoload -Uz bashcompinit && bashcompinit
+    complete -C aws_completer aws
+fi
+alias aws-local='aws --profile local --endpoint-url http://localhost:8001'
+compdef aws-local=aws
+
 # Shell integrations
 eval "$(fzf --zsh)"
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
