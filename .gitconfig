@@ -17,12 +17,13 @@
 	l = log --graph --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s%C(reset) %C(green)(%cd)%Creset %C(bold blue)<%aN>%Creset' --decorate --date=relative
 	ls = l --max-count=10
 
-[include]
-	path = ~/.config/delta/tokyonight_moon.gitconfig
 
 [delta]
 	line-numbers = true
 	side-by-side = false
+	syntax-theme = none
+	minus-style = red
+	plus-style = green
 
 [interactive]
 	diffFilter = delta --color-only
