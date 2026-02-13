@@ -1,7 +1,7 @@
 font-family = Hack Nerd Font
 font-size = 12
 
-theme = TokyoNight Moon
+theme = Zenbones Dark
 
 # shell-integration = none
 shell-integration-features = no-cursor
