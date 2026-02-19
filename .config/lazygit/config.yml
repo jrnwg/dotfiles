@@ -5,5 +5,5 @@ git:
     - colorArg: always
       pager: delta --pager=never
 os:
-  editPreset: "nvim"
+  editPreset: "nvim-remote"
 promptToReturnFromSubprocess: false
