@@ -1,12 +1,3 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "system",
-  "keybinds": {
-    "messages_page_up": "pageup,ctrl+b",
-    "messages_page_down": "pagedown,ctrl+f",
-    "messages_half_page_up": "ctrl+u",
-    "messages_half_page_down": "ctrl+d",
-    "messages_next": "ctrl+]",
-    "messages_previous": "ctrl+["
-  }
 }
