@@ -16,7 +16,7 @@
 	p = push
 	l = log --graph --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s%C(reset) %C(green)(%cd)%Creset %C(bold blue)<%aN>%Creset' --decorate --date=relative
 	ls = l --max-count=10
-
+	prune-merged = !git fetch --prune && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
 
 [delta]
 	line-numbers = true
