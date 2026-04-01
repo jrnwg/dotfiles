@@ -82,13 +82,6 @@ alias ..='cd ..'
 alias grep='grep --color=auto'
 
 # tmux
-if command -v tmux &> /dev/null && [[ $- == *i* ]] && [[ -z "$TMUX" ]]; then
-    if tmux has-session -t 0 2>/dev/null; then
-        tmux attach-session -t 0 \; new-window
-    else
-        tmux new-session -s 0
-    fi
-fi
 alias tls='tmux ls'
 alias tn='tmux new -s'
 alias ta='tmux attach -t'
