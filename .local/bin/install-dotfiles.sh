@@ -2,6 +2,9 @@
 
 set -e
 
+GIT_REPO_HTTPS="${GIT_REPO_HTTPS:-https://github.com/jrnwg/dotfiles.git}"
+GIT_REPO_SSH="${GIT_REPO_SSH:-git@github.com:jrnwg/dotfiles.git}"
+
 DOTFILES_GIT_DIR="${DOTFILES_GIT_DIR:-$HOME/.dotfiles.git}"
 DOTFILES_WORK_TREE="${DOTFILES_WORK_TREE:-$HOME}"
 DOTFILES_BACKUP_DIR="${DOTFILES_BACKUP_DIR:-$HOME/.dotfiles.backup}"
@@ -11,19 +14,12 @@ function _git() {
 }
 
 function bootstrap() {
-    local repo_url="$1"
-
-    if [ -z "$repo_url" ]; then
-        echo "Usage: dot bootstrap <git-repo-url>"
-        exit 1
-    fi
-
     if [ -d "$DOTFILES_GIT_DIR" ]; then
         echo "Dotfiles already exists at $DOTFILES_GIT_DIR"
         exit 1
     fi
   
-    git clone --bare "$repo_url" "$DOTFILES_GIT_DIR"
+    git clone --bare "$GIT_REPO_HTTPS" "$DOTFILES_GIT_DIR"
     command_with_conflict_resolution checkout
 
     set_default_config
@@ -66,16 +62,6 @@ function command_with_conflict_resolution() {
     fi
 }
 
-function get_repo_id() {
-    repo_url=$(_git remote get-url origin)
-
-    if [[ "$repo_url" =~ github\.com[:/](.+/[^/.]+)(\.git)?$ ]]; then
-        echo "${BASH_REMATCH[1]}"
-    else
-        echo "Error: could not extract repo ID from '$repo_url'" >&2
-        return 1
-    fi
-}
 
 function set_default_config() {
     _git config core.logallrefupdates true
@@ -87,18 +73,7 @@ function set_default_config() {
     local branch=$(_git symbolic-ref --short HEAD || echo main)
     _git branch --set-upstream-to=origin/$branch $branch
     
-    _git remote set-url origin "git@github.com:$(get_repo_id).git"
+    _git remote set-url origin "$GIT_REPO_SSH"
 }
 
-case "$1" in
-    bootstrap)
-        shift
-        bootstrap "$@"
-        ;;
-    checkout | merge | pull)
-        command_with_conflict_resolution "$@"
-        ;;
-    *)
-        _git "$@"
-        ;;
-esac
+bootstrap

@@ -108,9 +108,28 @@ alias gl='git l'
 alias gls='git ls'
 
 alias lg='lazygit'
-alias lazydot='lazygit -g ~/.dotfiles.git -w ~'
 
+DOTFILES_GIT_DIR=$HOME/.dotfiles.git
+DOTFILES_WORK_TREE=$HOME
+
+dot() {
+    if [[ "$1" == "status" || "$1" == "s" ]]; then
+        local short_flags=()
+        [[ "$1" == "s" ]] && short_flags=(-sb)
+        shift
+        local dirs=()
+        if [[ -f ~/.dotfiles.track-dirs ]]; then
+            dirs=("${(@f)$(< ~/.dotfiles.track-dirs | grep -v '^#' | grep -v '^$')}")
+        fi
+        git --git-dir=$DOTFILES_GIT_DIR --work-tree=$DOTFILES_WORK_TREE \
+            status "${short_flags[@]}" -u "$@" "${dirs[@]}"
+    else
+        git --git-dir=$DOTFILES_GIT_DIR --work-tree=$DOTFILES_WORK_TREE "$@"
+    fi
+}
 compdef dot=git
+
+alias lazydot='lazygit -g ~/.dotfiles.git -w ~'
 
 # aws
 if command -v aws_completer &> /dev/null; then
