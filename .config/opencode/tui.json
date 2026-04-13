@@ -5,9 +5,6 @@
     "messages_page_up": "pageup,ctrl+b",
     "messages_page_down": "pagedown,ctrl+f",
     "messages_half_page_up": "ctrl+u",
-    "messages_half_page_down": "ctrl+d",
-    "history_next": "ctrl+]",
-    "history_previous": "ctrl+["
+    "messages_half_page_down": "ctrl+d"
   }
 }
-
