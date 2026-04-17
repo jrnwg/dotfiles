@@ -88,6 +88,7 @@ alias tls='tmux ls'
 alias tn='tmux new -s'
 alias ta='tmux attach -t'
 alias tk='tmux kill-session -t'
+alias tks='tmux kill-server'
 alias tp='tmuxp'
 
 # git
