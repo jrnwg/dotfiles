@@ -17,8 +17,8 @@ source "${ZINIT_HOME}/zinit.zsh"
 
 # History size
 HISTFILE=~/.zsh_history
-HISTSIZE=50000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
 
 # Behavior
 setopt append_history          # append to the history file, don't overwrite it
